@@ -7,7 +7,7 @@ import Blog from '../pages/Blog/Blog';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import ChefRecipes from '../pages/ChefRecipes/ChefRecipes';
-
+import PrivetRoute from '../privetRoute/PrivetRoute';
 
 const router = createBrowserRouter([
     {
@@ -19,9 +19,9 @@ const router = createBrowserRouter([
             element: <Home></Home>
         },
         {
-            path: '/chefs/:id',
-            element: <ChefRecipes></ChefRecipes>,
-            loader: ({params}) => fetch(`http://localhost:5000/chefs/${params.id}`)
+            path: '/chefrecipes/:id',
+            element: <PrivetRoute><ChefRecipes></ChefRecipes>,</PrivetRoute>,
+            loader: ({params}) => fetch(`https://hotel-california-server-site-sayembinamir.vercel.app/chefrecipes/${params.id}`)
         },
         {
             path: 'blog',
@@ -35,7 +35,6 @@ const router = createBrowserRouter([
             path: 'register',
             element: <Register></Register>
         },
-       
         {
             path: '*',
             element: <NotFoundPage></NotFoundPage>
