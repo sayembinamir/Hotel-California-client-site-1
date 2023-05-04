@@ -1,9 +1,13 @@
-import React,{ useState } from "react";
-import { Link} from 'react-router-dom';
-import { Label, TextInput, Checkbox, Button} from "flowbite-react";
+import React,{ useState, useContext } from "react";
+import { Link, useNavigate} from 'react-router-dom';
+import { Label, TextInput, Button} from "flowbite-react";
+import { AuthContext } from "../../provider/AuthProvider";
 
 const Register = () => {
     const [error, setError] = useState("");
+    const {createUser, updateProfileAndPhoto, logOut } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleRegister = (event) =>{
         event.preventDefault();
@@ -12,30 +16,52 @@ const Register = () => {
         const photo = form.photo.value;
         const email = form.email.value;
         const password = form.password.value;
-        const confirm = form.confirm.value;
-        console.log(name, photo, email, password, confirm);
+        console.log(name, photo, email, password);
 
-        if(password !== confirm){
-            setError('password does not match')
-            return;
-        }
-        else if(password.length < 6){
+        setError('');
+
+        if(password.length < 6){
             setError('password must be 6 characters or longer')
         }
+
+        createUser(email, password)
+        .then(result => {
+            const loggedUser = result.user;
+            updateUserData(loggedUser, name, photo)
+            logOut();
+            navigate("/login");
+            console.log(loggedUser);
+            form.reset();
+        })
+        .catch(error =>{
+            console.log(error);
+            setError(error.message);
+        })
     }
+
+  // set userName and photoURL
+  const updateUserData = (user, name, photo) =>{
+    updateProfileAndPhoto(user, name, photo)
+    .then(() =>{
+      console.log('user name update')
+    })
+    .catch(error => {
+      console.log(error.message)
+      setError(error.message)
+    })
+  }
 
 
   return (
     <div className="mt-12 my-container">
-      <form onSubmit={handleRegister} className="flex flex-col gap-4 md:w-1/2 mx-auto border-2 border-gray-400  p-5 rounded-lg">
-      <h2 className="text-2xl font-medium text-center
-      mb-3">Register</h2>
+      <form onSubmit={handleRegister} className="flex flex-col gap-4 p-5 mx-auto mb-12 border-2 border-gray-400 rounded-lg md:w-1/2">
+      <h2 className="mb-3 text-2xl font-medium text-center">Register</h2>
         <div>
-          <div className="mb-2 block">
-            <Label htmlFor="name2" value="Your Name" />
+          <div className="block mb-2">
+            <Label htmlFor="name" value="Your Name" />
           </div>
           <TextInput
-            id="name2"
+            id="name"
             type="text"
             name="name"
             placeholder="Enter Name"
@@ -44,20 +70,20 @@ const Register = () => {
           />
         </div>
         <div>
-          <div className="mb-2 block">
-            <Label htmlFor="photo" value="Photo URL" />
+          <div className="block mb-2">
+            <Label htmlFor="photo" value="PhotoURL" />
           </div>
           <TextInput
-            id="photo2"
+            id="photo"
             type="text"
             name="photo"
-            placeholder="Photo URL"
+            placeholder="PhotoURL"
             required={true}
             shadow={true}
           />
         </div>
         <div>
-          <div className="mb-2 block">
+          <div className="block mb-2">
             <Label htmlFor="email2" value="Your Email" />
           </div>
           <TextInput
@@ -70,7 +96,7 @@ const Register = () => {
           />
         </div>
         <div>
-          <div className="mb-2 block">
+          <div className="block mb-2">
             <Label htmlFor="password2" value="Your Password" />
           </div>
           <TextInput
@@ -82,32 +108,8 @@ const Register = () => {
             shadow={true}
           />
         </div>
-        <div>
-          <div className="mb-2 block">
-            <Label htmlFor="repeat-password" value="Confirm Password" />
-          </div>
-          <TextInput
-            id="repeat-password"
-            type="password"
-            name="confirm"
-            placeholder="confirm password"
-            required={true}
-            shadow={true}
-          />
-        </div>
-        <div className="flex items-center gap-2">
-          <Checkbox id="agree" />
-          <Label htmlFor="agree">
-            I agree with the
-            <Link to="/terms"
-              className="text-blue-600 hover:underline"
-            >
-               terms and conditions
-            </Link>
-          </Label>
-        </div>
         <Button type="submit">Register new account</Button>
-        <p className="text-red-400 text-center">{error}</p>
+        <p className="text-center text-red-400">{error}</p>
         <p className="mt-1 text-center">Already have an account? Please <Link className="text-blue-500 underline" to="/login">Login</Link></p>
       </form>
     </div>
