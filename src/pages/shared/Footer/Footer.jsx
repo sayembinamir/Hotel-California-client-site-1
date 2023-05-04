@@ -22,7 +22,7 @@ const Footer = () => {
                         <li>About us</li>
                         <li>Blog</li>
                         <li>Check out</li>
-                        <li className='mb-3'>Service</li>
+                        <li className='mb-3'>Service 1</li>
                     </ul>
                 </div>
                 <div>

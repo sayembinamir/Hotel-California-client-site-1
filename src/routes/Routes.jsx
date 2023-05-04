@@ -7,7 +7,8 @@ import Blog from '../pages/Blog/Blog';
 import Login from '../pages/Login/Login';
 import Register from '../pages/Register/Register';
 import ChefRecipes from '../pages/ChefRecipes/ChefRecipes';
-import PrivetRoute from '../privetRoute/PrivetRoute';
+import PrivetRoute from '../privateRoute/PrivateRoute';
+
 
 const router = createBrowserRouter([
     {

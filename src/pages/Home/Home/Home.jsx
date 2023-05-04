@@ -1,4 +1,3 @@
-Rian Ahmed
 import React, { useEffect, useState } from "react";
 import Chef from "../Chef/Chef";
 import Slider from "react-slick";
