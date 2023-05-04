@@ -2,7 +2,7 @@
 
 ## Live Link
 
-Hosted in Netlify -> [Hotel-California]())
+Hosted in Netlify -> [Hotel-California](https://hotel-califorrnia.web.app/))
 
 # Home-Page:
 
