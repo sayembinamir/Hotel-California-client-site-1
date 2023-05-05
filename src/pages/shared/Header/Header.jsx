@@ -20,7 +20,7 @@ const Header = () => {
     return (
         <div className='my-container'>
             <div className='flex justify-between p-6 md:hidden'>
-                <h1 className='mb-4 text-2xl font-extrabold md:text-3xl text-regalBlack md:mb-0'>Cooking With Care</h1>
+                <h1 className='mb-4 text-2xl font-extrabold md:text-3xl text-regalBlack md:mb-0'>Hotel California</h1>
                 <div onClick={() => setOpen(!open)}>
                     <span>
                         {
